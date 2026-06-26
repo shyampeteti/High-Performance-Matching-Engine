@@ -24,11 +24,14 @@ A real-time, high-frequency trading matching engine core written in **C++**, bri
 
 ### 1. Compile the C++ Engine
 Compile the core with the `-O3` flag for maximum speed optimization:
+```
 g++ -O3 engine.cpp -o engine
-
+```
 ### 2. Run the Web Server
 Launch the Flask bridge:
+```
 python app.py
+```
 
 ### 3. Trade
 Open your browser and navigate to `http://localhost:5000` or `http://127.0.0.1:5000`. Submit matching buy and sell orders to watch the engine execute trades in real-time.

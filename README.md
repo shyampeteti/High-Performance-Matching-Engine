@@ -15,6 +15,22 @@ A real-time, high-frequency trading matching engine core written in **C++**, bri
 2. **Python Subprocess Bridge:** A Flask server acts as an API gateway, taking JSON payloads from the web UI and piping them directly into the standard input (`std::cin`) of the continuously running C++ executable.
 3. **HTML/JS Dashboard:** A dark-mode user interface that polls the engine for live trades and resting orders, updating asynchronously.
 
+💡 How It Works (The Lifecycle of a Trade)
+
+1. Place an Order: A user submits a buy or sell limit order via the web dashboard (e.g., "Buy 50 shares of AAPL at $150").
+
+2. API Routing: The Flask server receives this payload and instantly pipes it into the standard input of the running C++ executable.
+
+3. Algorithmic Matching:
+
+ a. The C++ engine checks the opposite side of the Order Book (the Min-Heap for incoming Buys, the Max-Heap for incoming Sells).
+
+ b. If the price condition is met, a Trade is executed instantly.
+
+ c. If there is no match, the order Rests in the queue waiting for future counterparties.
+
+4. Live Feedback: The engine streams the result back to standard output, which the Python background thread captures and pushes to the live feed on the UI.
+
 ## 🚀 Quick Start
 
 ### Prerequisites

@@ -23,11 +23,11 @@ A real-time, high-frequency trading matching engine core written in **C++**, bri
 
 3. Algorithmic Matching:
 
- a. The C++ engine checks the opposite side of the Order Book (the Min-Heap for incoming Buys, the Max-Heap for incoming Sells).
+    a. The C++ engine checks the opposite side of the Order Book (the Min-Heap for incoming Buys, the Max-Heap for incoming Sells).
 
- b. If the price condition is met, a Trade is executed instantly.
+    b. If the price condition is met, a Trade is executed instantly.
 
- c. If there is no match, the order Rests in the queue waiting for future counterparties.
+    c. If there is no match, the order Rests in the queue waiting for future counterparties.
 
 4. Live Feedback: The engine streams the result back to standard output, which the Python background thread captures and pushes to the live feed on the UI.
 

@@ -48,9 +48,10 @@ HTML_TEMPLATE = """
         .btn-buy:hover { background-color: #00e676; }
         .btn-sell { background-color: #d50000; }
         .btn-sell:hover { background-color: #ff1744; }
-        .log-box { background-color: #000; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: monospace; }
-        .log-trade { color: #00e676; }
-        .log-rested { color: #ffab00; }
+        .log-box { background-color: #000; padding: 15px; border-radius: 4px; height: 300px; overflow-y: auto; font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; }
+        .log-trade { color: #00e676; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #333; }
+        .log-rested { color: #ffab00; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #333; }
+        .log-received { color: #9e9e9e; margin-bottom: 8px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -105,8 +106,16 @@ HTML_TEMPLATE = """
             const logs = await res.json();
             const logBox = document.getElementById('logs');
             logBox.innerHTML = logs.map(log => {
-                if (log.trade) return `<div class="log-trade">⚡ TRADE EXECUTED: ${log.trade.quantity} shares @ $${log.trade.price} (Buyer: ${log.trade.buyer_id}, Seller: ${log.trade.seller_id})</div>`;
-                if (log.rested) return `<div class="log-rested">⏳ ORDER RESTED: ${log.rested.side} ${log.rested.qty} shares @ $${log.rested.price} (ID: ${log.rested.id})</div>`;
+                if (log.status === "received") {
+                    return `<div class="log-received">📩 <b>ORDER RECEIVED:</b> Order #${log.id} arrived to ${log.action} <b>${log.quantity} shares</b> of ${log.symbol} at <b>$${log.price}</b>. Checking for matches...</div>`;
+                }
+                if (log.trade) {
+                    return `<div class="log-trade">🤝 <b>SUCCESSFUL TRADE:</b> Buyer #${log.trade.buyer_id} just bought <b>${log.trade.quantity} shares</b> from Seller #${log.trade.seller_id} at <b>$${log.trade.price}</b> per share.</div>`;
+                }
+                if (log.rested) {
+                    let matchTarget = log.rested.side === "BUY" ? "sellers" : "buyers";
+                    return `<div class="log-rested">📥 <b>ADDED TO BOOK:</b> Order #${log.rested.id} wants to <b>${log.rested.side} ${log.rested.qty} shares</b> at <b>$${log.rested.price}</b>. Sitting in the order book waiting for ${matchTarget}...</div>`;
+                }
                 return `<div>${JSON.stringify(log)}</div>`;
             }).reverse().join('');
         }, 500);
@@ -137,4 +146,4 @@ def get_logs():
 
 if __name__ == '__main__':
     print("🚀 Server running at http://localhost:5000")
-    app.run(port=5000, debug=False, use_reloader=False)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)

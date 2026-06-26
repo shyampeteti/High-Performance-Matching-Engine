@@ -1,0 +1,18 @@
+# C++ compiled binaries
+engine
+*.out
+*.o
+*.exe
+*.obj
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db

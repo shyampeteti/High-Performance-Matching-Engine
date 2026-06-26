@@ -4,7 +4,6 @@
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 [![C++ CI Build Check](https://github.com/shyampeteti/order-matching-engine/actions/workflows/build.yml/badge.svg)](https://github.com/shyampeteti/order-matching-engine/actions/workflows/build.yml)
 
-
 A real-time, high-frequency trading matching engine core written in **C++**, bridged to a **Python (Flask)** web dashboard. This project simulates the backend architecture of a financial exchange, pairing buy and sell orders with ultra-low latency.
 
 ## 🏗️ Architecture
